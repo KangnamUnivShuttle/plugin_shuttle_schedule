@@ -1,0 +1,19 @@
+{
+    "testEnvironment": "node",
+    "transform": {
+    },
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "node"
+    ],
+    "testRegex": "/tests\/\\w+.spec.js",
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.{js}"
+    ],
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/tests"
+    ]
+}

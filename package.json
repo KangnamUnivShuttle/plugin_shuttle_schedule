@@ -1,0 +1,33 @@
+{
+  "name": "plugin_weather",
+  "version": "1.0.0",
+  "description": "Simple weather plugin",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon src/server.js",
+    "test": "jest --forceExit --coverage --verbose --config ./jest.config.json --detectOpenHandles --maxWorkers=1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KangnamUnivShuttle/plugin_weather.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KangnamUnivShuttle/plugin_weather/issues"
+  },
+  "homepage": "https://github.com/KangnamUnivShuttle/plugin_weather#readme",
+  "dependencies": {
+    "axios": "^0.26.0",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^27.5.1",
+    "nodemon": "^2.0.15",
+    "superagent": "^7.1.1",
+    "supertest": "^6.2.2"
+  }
+}

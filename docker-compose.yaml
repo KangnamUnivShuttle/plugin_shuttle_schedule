@@ -1,0 +1,24 @@
+version: '3'
+networks:
+  infra_chatbot:
+    external: true
+services:
+  plugin_node:
+    image: asdfasdf
+    build: ./
+    container_name: asdfasdf
+    restart: always
+    networks:
+      - infra_chatbot
+    ports:
+      - '10000:3000'
+    deploy:
+      resources:
+        limits:
+          cpus: '0.1'
+          memory: 128M
+    logging:
+      driver: json-file
+      options:
+        max-file: '5'
+        max-size: 10m
