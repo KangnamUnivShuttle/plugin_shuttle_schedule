@@ -69,8 +69,6 @@ const successResponse = {
     "version": "2.0",
     "template": {
         "outputs": [
-            {
-            }
         ],
         "quickReplies": [
             {

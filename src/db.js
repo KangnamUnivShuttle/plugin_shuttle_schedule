@@ -8,12 +8,14 @@ const SHUTTLE_DATA = {
         stations: {
             'Ah7lO0GS9M': {
                 name: '기흥역 4번출구',
+                descript: 'memo 1',
                 status: true,
                 order: 1,
                 schedule: []
             },
             'VOF5o1gUfn': {
                 name: '사훈 프라자 앞',
+                descript: 'memo 1',
                 status: true,
                 order: 2,
                 schedule: []
@@ -27,6 +29,7 @@ const SHUTTLE_DATA = {
         stations: {
             'zbIclI1pzD': {
                 name: '이공관 (기흥역)',
+                descript: 'memo 1',
                 status: true,
                 order: 1,
                 schedule: []
@@ -40,6 +43,7 @@ const SHUTTLE_DATA = {
         stations: {
             'rIowOloH4l': {
                 name: '이공관 (사훈 프라자)',
+                descript: 'memo 1',
                 status: true,
                 order: 1,
                 schedule: []
@@ -97,6 +101,7 @@ const SHUTTLE_DATA = {
         stations: {
             'Hatchery': {
                 name: '해처리',
+                descript: 'memo 5',
                 status: true,
                 order: 1,
                 schedule: []
@@ -122,7 +127,7 @@ const getShuttleRouteData = function (isDev = false) {
 const getShuttleStationList = function(route, isDev = false) {
     const result = []
     if (!SHUTTLE_DATA.hasOwnProperty(route) || !SHUTTLE_DATA[route].stations || !SHUTTLE_DATA[route].status || SHUTTLE_DATA[route].dev !== isDev) {
-        return result
+        return null
     }
 
     const stations = SHUTTLE_DATA[route].stations
@@ -133,6 +138,7 @@ const getShuttleStationList = function(route, isDev = false) {
                 name: stations[key].name,
                 order: stations[key].order,
                 schedule: stations[key].schedule,
+                descript: stations[key].descript,
                 key
             })
         }
@@ -214,9 +220,17 @@ const getNearestShuttleData = function(route, time, isDev = false) {
     })
 }
 
+const getRouteNameFromKey = function(key) {
+    if (!SHUTTLE_DATA.hasOwnProperty(key)) {
+        return 'NA'
+    }
+    return SHUTTLE_DATA[key].name
+}
+
 module.exports = {
     SHUTTLE_DATA,
     getShuttleRouteData,
     getShuttleStationList,
-    getNearestShuttleData
+    getNearestShuttleData,
+    getRouteNameFromKey
 }
