@@ -78,6 +78,108 @@ describe("Test the root path", () => {
       })
     expect(response.statusCode).toBe(200);
     const data = response.body
+    expect(data).toEqual({
+      "version": "2.0",
+      "template": {
+        "outputs": [
+          {
+            "simpleText": {
+              "text": "존재하지 않는 경로 입니다."
+            }
+          }
+        ],
+        "quickReplies": [
+          {
+            "messageText": "홈 으로",
+            "action": "message",
+            "label": "홈"
+          },
+          {
+            "messageText": "뒤로 가기",
+            "action": "message",
+            "label": "↩"
+          }
+        ]
+      }
+    })
+  });
+  test("Get available station list in route", async () => {
+    const response = await agent.post('/chat')
+      .type('application/json')
+      .send({
+        dev: true,
+        method: 'stations',
+        route: 'Not enough minerals',
+      })
+    expect(response.statusCode).toBe(200);
+    const data = response.body
+    expect(data).toEqual({
+      "version": "2.0",
+      "template": {
+        "outputs": [
+          {
+            "carousel": {
+              "type": "listCard",
+              "items": [
+                {
+                  "header": {
+                    "title": "12시 방향 경로"
+                  },
+                  "items": [
+                    {
+                      "title": "일연벙",
+                      "description": "memo 1",
+                    },
+                    {
+                      "title": "삼연벙",
+                      "description": "memo 3",
+                    },
+                    {
+                      "title": "사연벙",
+                      "description": "memo 4",
+                    },
+                    {
+                      "title": "오연벙",
+                      "description": "memo 5",
+                    },
+                  ],
+                  "buttons": [
+                    {
+                      "label": "더보기",
+                      "action": "webLink",
+                      "webLinkUrl": "https://web.kangnam.ac.kr/menu/4990be9bdd4defbf92dde49a31ad1a3b.do"
+                    }
+                  ]
+                },
+              ]
+            }
+          }
+        ],
+        "quickReplies": [
+          {
+            "messageText": "홈 으로",
+            "action": "message",
+            "label": "홈"
+          },
+          {
+            "messageText": "뒤로 가기",
+            "action": "message",
+            "label": "↩"
+          }
+        ]
+      }
+    })
+  });
+  test("Should not return station list in disabled route", async () => {
+    const response = await agent.post('/chat')
+      .type('application/json')
+      .send({
+        dev: true,
+        method: 'stations',
+        route: 'Spawn more overlords',
+      })
+    expect(response.statusCode).toBe(200);
+    const data = response.body
     console.log('data', JSON.stringify(data))
     expect(data).toEqual({
       "version": "2.0",
@@ -104,108 +206,6 @@ describe("Test the root path", () => {
       }
     })
   });
-  // test("Get available station list in route", async () => {
-  //   const response = await agent.post('/chat')
-  //     .type('application/json')
-  //     .send({
-  //       dev: true,
-  //       method: 'stations',
-  //       route: 'Not enough minerals',
-  //     })
-  //   expect(response.statusCode).toBe(200);
-  //   const data = response.body
-  //   expect(data).toEqual({
-  //     "version": "2.0",
-  //     "template": {
-  //       "outputs": [
-  //         {
-  //           "carousel": {
-  //             "type": "listCard",
-  //             "items": [
-  //               {
-  //                 "header": {
-  //                   "title": "12시 방향 행 경로"
-  //                 },
-  //                 "items": [
-  //                   {
-  //                     "title": "햄치즈",
-  //                     "description": "memo 1",
-  //                   },
-  //                   {
-  //                     "title": "삼연벙",
-  //                     "description": "memo 3",
-  //                   },
-  //                   {
-  //                     "title": "사연벙",
-  //                     "description": "memo 4",
-  //                   },
-  //                   {
-  //                     "title": "오연벙",
-  //                     "description": "memo 5",
-  //                   },
-  //                 ],
-  //                 "buttons": [
-  //                   {
-  //                     "label": "더보기",
-  //                     "action": "webLink",
-  //                     "webLinkUrl": "https://web.kangnam.ac.kr/menu/4990be9bdd4defbf92dde49a31ad1a3b.do"
-  //                   }
-  //                 ]
-  //               },
-  //             ]
-  //           }
-  //         }
-  //       ],
-  //       "quickReplies": [
-  //         {
-  //           "messageText": "홈 으로",
-  //           "action": "message",
-  //           "label": "홈"
-  //         },
-  //         {
-  //           "messageText": "뒤로 가기",
-  //           "action": "message",
-  //           "label": "↩"
-  //         }
-  //       ]
-  //     }
-  //   })
-  // });
-  // test("Should not return station list in disabled route", async () => {
-  //   const response = await agent.post('/chat')
-  //     .type('application/json')
-  //     .send({
-  //       dev: true,
-  //       method: 'stations',
-  //       route: 'Spawn more overlords',
-  //     })
-  //   expect(response.statusCode).toBe(200);
-  //   const data = response.body
-  //   expect(data).toEqual({
-  //     "version": "2.0",
-  //     "template": {
-  //       "outputs": [
-  //         {
-  //           "simpleText": {
-  //             "text": "비활성화된 경로 입니다."
-  //           }
-  //         }
-  //       ],
-  //       "quickReplies": [
-  //         {
-  //           "messageText": "홈 으로",
-  //           "action": "message",
-  //           "label": "홈"
-  //         },
-  //         {
-  //           "messageText": "뒤로 가기",
-  //           "action": "message",
-  //           "label": "↩"
-  //         }
-  //       ]
-  //     }
-  //   })
-  // });
   // test("Get nearest time in station", async () => {
   //   const response = await agent.post('/chat')
   //     .type('application/json')

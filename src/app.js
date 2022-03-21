@@ -62,16 +62,16 @@ app.post('/chat', (req, res) => {
                 res.send(errorResponse)
                 return 
             }
-            
+
             carouselTemplate.carousel.type = 'listCard'
-            listTemplate.header.title = '정류소 안내'
+            listTemplate.header.title = `${getRouteNameFromKey(req.body.route)} 경로`
             
-            const sortedStations = stations.sort((a, b) => a.sort - b.sort)
+            const sortedStations = stations.sort((a, b) => a.order - b.order)
 
             for(let i = 0; i < sortedStations.length; i ++) {
-                listItem.title = sortedRoutes[i].name
-                listItem.description = sortedRoutes[i].description
-                listTemplate.items.push(listItem)
+                listItem.title = sortedStations[i].name
+                listItem.description = sortedStations[i].descript
+                listTemplate.items.push(JSON.parse(JSON.stringify(listItem)))
 
                 if (i % 5 === 4 || i === sortedStations.length - 1) {
                     carouselTemplate.carousel.items.push(JSON.parse(JSON.stringify(listTemplate)))
@@ -84,7 +84,7 @@ app.post('/chat', (req, res) => {
             carouselTemplate.carousel.type = 'listCard'
             listTemplate.header.title = `getRouteNameFromKey(req.body.route) 경로`
 
-            const sortedNearTime = neartime.sort((a, b) => a.sort - b.sort)
+            const sortedNearTime = neartime.sort((a, b) => a.order - b.order)
 
             for (let i = 0; i < sortedNearTime.length; i ++) {
                 listItem.title = sortedNearTime[i].name

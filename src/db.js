@@ -133,7 +133,7 @@ const getShuttleStationList = function(route, isDev = false) {
     const stations = SHUTTLE_DATA[route].stations
 
     for(let key in stations) {
-        if (stations.status) {
+        if (stations[key].status) {
             result.push({
                 name: stations[key].name,
                 order: stations[key].order,
