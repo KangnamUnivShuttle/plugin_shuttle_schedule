@@ -83,7 +83,7 @@ app.post('/chat', (req, res) => {
             const neartime = getNearestShuttleData(req.body.route, req.body.time, req.body.dev || false)
             carouselTemplate.carousel.type = 'listCard'
             listTemplate.header.title = `${getRouteNameFromKey(req.body.route)} 경로`
-            console.log('neartime', neartime)
+            // console.log('neartime', neartime)
 
             const sortedNearTime = neartime.sort((a, b) => a.order - b.order)
 
