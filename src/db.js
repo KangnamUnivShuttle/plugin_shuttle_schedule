@@ -160,10 +160,15 @@ const calcNearestTime = function (time, schedule, idx = 0) {
         }
     }
 
+    console.log('calc', time, idx, schedule)
+
     // calc nearest
     for(let i = idx; i < schedule.length; i++) {
-        const diff = moment(schedule[i], 'HHMMSS').diff(moment(time, 'HHMMSS'))
-        if (60000 <= diff && dif <= 600000) { // 1 ~ 10분 전
+        const diff = Math.abs(moment(time, 'HH:mm:ss').diff(moment(schedule[i], 'HH:mm:ss')))
+        console.log('diff', schedule[i], time, diff, moment(time, 'HH:mm:ss'), moment(time, 'HH:mm:ss').diff(moment(schedule[i], 'HH:mm:ss')))
+        console.log('range', schedule[i - 1], time, schedule[i])
+
+        if (60000 <= diff && diff <= 600000) { // 1 ~ 10분 전
             return {
                 msg: `${Math.ceil(diff / 60000)}분 후 출발`,
                 idx: i
@@ -173,7 +178,8 @@ const calcNearestTime = function (time, schedule, idx = 0) {
                 msg: '잠시후 출발',
                 idx: i
             }
-        } else if (0 < i && schedule[i - 1] < time && time < schedule[i]) { // 통상 시간 범위
+        } else if (0 < i && ((schedule[i - 1] || '00:00:00') < time && time < schedule[i])
+                        || (idx !== 0 && time < schedule[i])) { // 통상 시간 범위
             return {
                 msg: `${idx === 0 ? '이번' : '다음'} ${schedule[i]}`,
                 idx: i
@@ -188,24 +194,25 @@ const calcNearestTime = function (time, schedule, idx = 0) {
                 msg: `첫차 ${schedule[0]}`,
                 idx: i
             }
-        } else {
-            return {
-                msg: '시간표 확인 요망',
-                idx: 0
-            }
         }
     }
-    return `첫차 ${schedule[0]}`
+    return {
+        msg: idx === 0 ? '운행종료' : `첫차 ${schedule[0]}`,
+        idx: 0
+    }
 }
 
 const calcNearestTimeSummary = function(time, schedule) {
-    const {nearMsg, nearIdx} = calcNearestTime(time, schedule)
-    const {nextMsg, _} = calcNearestTime(time, schedule, nearIdx + 1)
+    const {msg: nearMsg, idx: nearIdx} = calcNearestTime(time, schedule)
+    console.log('near', nearMsg, nearIdx)
+    const {msg: nextMsg, idx: _} = calcNearestTime(time, schedule, nearIdx + 1)
+    console.log('next', nextMsg, _)
     return `${nearMsg} / ${nextMsg}`
 }
 
 const getNearestShuttleData = function(route, time, isDev = false) {
     const stations = getShuttleStationList(route, isDev)
+    console.log(stations)
     const result = []
     if (!/^([\d]{2}[\:]?){3}$/g.exec(time)) {
         return result
@@ -218,6 +225,7 @@ const getNearestShuttleData = function(route, time, isDev = false) {
             msg: calcNearestTimeSummary(time, station.schedule)
         })
     })
+    return result
 }
 
 const getRouteNameFromKey = function(key) {

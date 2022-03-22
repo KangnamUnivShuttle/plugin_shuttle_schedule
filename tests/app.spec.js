@@ -180,7 +180,6 @@ describe("Test the root path", () => {
       })
     expect(response.statusCode).toBe(200);
     const data = response.body
-    console.log('data', JSON.stringify(data))
     expect(data).toEqual({
       "version": "2.0",
       "template": {
@@ -206,74 +205,75 @@ describe("Test the root path", () => {
       }
     })
   });
-  // test("Get nearest time in station", async () => {
-  //   const response = await agent.post('/chat')
-  //     .type('application/json')
-  //     .send({
-  //       dev: true,
-  //       method: 'neartime',
-  //       time: '09:20:00',
-  //       route: 'Not enough minerals',
-  //     })
-  //   expect(response.statusCode).toBe(200);
-  //   const data = response.body
-  //   expect(data).toEqual({
-  //     "version": "2.0",
-  //     "template": {
-  //       "outputs": [
-  //         {
-  //           "carousel": {
-  //             "type": "listCard",
-  //             "items": [
-  //               {
-  //                 "header": {
-  //                   "title": "12시 방향 경로"
-  //                 },
-  //                 "items": [
-  //                   {
-  //                     "title": "일연벙",
-  //                     "description": "10분 후 출발 / 다음 20:40:00",
-  //                   },
-  //                   {
-  //                     "title": "삼연벙",
-  //                     "description": "운행종료 / 첫차 09:00:00",
-  //                   },
-  //                   {
-  //                     "title": "사연벙",
-  //                     "description": "운행종료 / 첫차 00:00:00",
-  //                   },
-  //                   {
-  //                     "title": "오연벙",
-  //                     "description": "운행 정보 없음",
-  //                   },
-  //                 ],
-  //                 "buttons": [
-  //                   {
-  //                     "label": "더보기",
-  //                     "action": "webLink",
-  //                     "webLinkUrl": "https://web.kangnam.ac.kr/menu/4990be9bdd4defbf92dde49a31ad1a3b.do"
-  //                   }
-  //                 ]
-  //               },
-  //             ]
-  //           }
-  //         }
-  //       ],
-  //       "quickReplies": [
-  //         {
-  //           "messageText": "홈 으로",
-  //           "action": "message",
-  //           "label": "홈"
-  //         },
-  //         {
-  //           "messageText": "뒤로 가기",
-  //           "action": "message",
-  //           "label": "↩"
-  //         }
-  //       ]
-  //     }
-  //   })
-  // });
+  test("Get nearest time in station", async () => {
+    const response = await agent.post('/chat')
+      .type('application/json')
+      .send({
+        dev: true,
+        method: 'neartime',
+        time: '09:20:00',
+        route: 'Not enough minerals',
+      })
+    expect(response.statusCode).toBe(200);
+    const data = response.body
+    console.log('data', JSON.stringify(data))
+    expect(data).toEqual({
+      "version": "2.0",
+      "template": {
+        "outputs": [
+          {
+            "carousel": {
+              "type": "listCard",
+              "items": [
+                {
+                  "header": {
+                    "title": "12시 방향 경로"
+                  },
+                  "items": [
+                    {
+                      "title": "일연벙",
+                      "description": "10분 후 출발 / 다음 20:40:00",
+                    },
+                    {
+                      "title": "삼연벙",
+                      "description": "운행종료 / 첫차 09:00:00",
+                    },
+                    {
+                      "title": "사연벙",
+                      "description": "운행종료 / 첫차 00:00:00",
+                    },
+                    {
+                      "title": "오연벙",
+                      "description": "운행 정보 없음 / 운행 정보 없음",
+                    },
+                  ],
+                  "buttons": [
+                    {
+                      "label": "더보기",
+                      "action": "webLink",
+                      "webLinkUrl": "https://web.kangnam.ac.kr/menu/4990be9bdd4defbf92dde49a31ad1a3b.do"
+                    }
+                  ]
+                },
+              ]
+            }
+          }
+        ],
+        "quickReplies": [
+          {
+            "messageText": "홈 으로",
+            "action": "message",
+            "label": "홈"
+          },
+          {
+            "messageText": "뒤로 가기",
+            "action": "message",
+            "label": "↩"
+          }
+        ]
+      }
+    })
+  });
   // test("if station time == current time", async () => {
   //   const response = await agent.post('/chat')
   //     .type('application/json')
@@ -312,7 +312,7 @@ describe("Test the root path", () => {
   //                   },
   //                   {
   //                     "title": "오연벙",
-  //                     "description": "운행 정보 없음",
+  //                     "description": "운행 정보 없음 / 운행 정보 없음",
   //                   },
   //                 ],
   //                 "buttons": [
@@ -380,7 +380,7 @@ describe("Test the root path", () => {
   //                   },
   //                   {
   //                     "title": "오연벙",
-  //                     "description": "운행 정보 없음",
+  //                     "description": "운행 정보 없음 / 운행 정보 없음",
   //                   },
   //                 ],
   //                 "buttons": [
@@ -448,7 +448,7 @@ describe("Test the root path", () => {
   //                   },
   //                   {
   //                     "title": "오연벙",
-  //                     "description": "운행 정보 없음",
+  //                     "description": "운행 정보 없음 / 운행 정보 없음",
   //                   },
   //                 ],
   //                 "buttons": [

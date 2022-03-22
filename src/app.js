@@ -82,16 +82,17 @@ app.post('/chat', (req, res) => {
         case 'neartime':
             const neartime = getNearestShuttleData(req.body.route, req.body.time, req.body.dev || false)
             carouselTemplate.carousel.type = 'listCard'
-            listTemplate.header.title = `getRouteNameFromKey(req.body.route) 경로`
+            listTemplate.header.title = `${getRouteNameFromKey(req.body.route)} 경로`
+            console.log('neartime', neartime)
 
             const sortedNearTime = neartime.sort((a, b) => a.order - b.order)
 
             for (let i = 0; i < sortedNearTime.length; i ++) {
                 listItem.title = sortedNearTime[i].name
                 listItem.description = sortedNearTime[i].msg
-                listTemplate.items.push(listItem)
+                listTemplate.items.push(JSON.parse(JSON.stringify(listItem)))
 
-                if (i % 5 === 4 || i === sortedStations.length - 1) {
+                if (i % 5 === 4 || i === sortedNearTime.length - 1) {
                     carouselTemplate.carousel.items.push(JSON.parse(JSON.stringify(listTemplate)))
                     listTemplate.items.length = 0
                 }
