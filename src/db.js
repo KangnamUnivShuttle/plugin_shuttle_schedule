@@ -164,16 +164,16 @@ const calcNearestTime = function (time, schedule, idx = 0) {
 
     // calc nearest
     for(let i = idx; i < schedule.length; i++) {
-        const diff = Math.abs(moment(time, 'HH:mm:ss').diff(moment(schedule[i], 'HH:mm:ss')))
+        const diff = moment(schedule[i], 'HH:mm:ss').diff(moment(time, 'HH:mm:ss'))
         console.log('diff', schedule[i], time, diff, moment(time, 'HH:mm:ss'), moment(time, 'HH:mm:ss').diff(moment(schedule[i], 'HH:mm:ss')))
         console.log('range', schedule[i - 1], time, schedule[i])
 
-        if (60000 <= diff && diff <= 600000) { // 1 ~ 10분 전
+        if (60000 <= Math.abs(diff) && Math.abs(diff) <= 600000 && diff > 0) { // 1 ~ 10분 전
             return {
-                msg: `${Math.ceil(diff / 60000)}분 후 출발`,
+                msg: `${Math.ceil(Math.abs(diff) / 60000)}분 후 출발`,
                 idx: i
             }
-        } else if (diff < 60000) {// 잠시후
+        } else if (0 <= diff && Math.abs(diff) < 60000) {// 잠시후
             return {
                 msg: '잠시후 출발',
                 idx: i
