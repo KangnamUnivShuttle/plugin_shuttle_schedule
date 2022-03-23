@@ -1,5 +1,5 @@
 module.exports = [{
-        script: './index.js',
+        script: './server.js',
         name: 'my-server',
         exec_mode: 'cluster',
         instances: 1
