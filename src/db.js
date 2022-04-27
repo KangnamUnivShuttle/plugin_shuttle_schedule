@@ -110,11 +110,64 @@ const SHUTTLE_DATA = {
   },
 };
 
+const convertLoadedData = function (data) {
+  const shuttleData = {};
+  data.forEach((row) => {
+    const route_key = `route_${row.ksrid}`;
+    if (!shuttleData.hasOwnProperty(route_key)) {
+      shuttleData[route_key] = {
+        name: row.route_name,
+        status: row.route_status,
+        order: row.route_order_num,
+        dev: false,
+        stations: {},
+      };
+    }
+
+    shuttleData[route_key].stations[`station_${row.kssid}`] = {
+      name: row.station_name,
+      descript: row.descript,
+      status: row.station_status,
+      order: row.station_order_num,
+      schedule: JSON.parse(row.timeline),
+    };
+  });
+  //   console.log("shuttleData", shuttleData);
+  return shuttleData;
+};
+
+const loadFromDB = async function () {
+  const mariadb = require("mariadb");
+  const pool = mariadb.createPool({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_DATABASENAME,
+    port: process.env.DB_PORT,
+    connectionLimit: 5,
+  });
+
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const rows = await conn.query("SELECT * FROM `knu_shuttle_info`");
+    // rows: [ {val: 1}, meta: ... ]
+    // console.log("rows", rows);
+    return Promise.resolve(convertLoadedData(rows));
+  } catch (e) {
+    return Promise.reject(
+      new Error(`Error while load data from db: ${e.message}`)
+    );
+  } finally {
+    if (conn) conn.release(); //release to pool
+  }
+};
+
 const loadShuttleData = async function (isDev = false) {
   if (isDev) {
     return Promise.resolve(SHUTTLE_DATA);
   }
-  return Promise.resolve({});
+  return loadFromDB();
 };
 
 const getShuttleRouteData = async function (isDev = false) {
