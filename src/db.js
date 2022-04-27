@@ -299,7 +299,7 @@ const getNearestShuttleData = async function (route, time, isDev = false) {
   const stations = await getShuttleStationList(route, isDev);
   // console.log(stations)
   const result = [];
-  if (!/^([\d]{2}[\:]?){3}$/g.exec(time)) {
+  if (!/^([\d]{2}[\:]?){3}$/g.exec(time) || !stations) {
     return result;
   }
 
