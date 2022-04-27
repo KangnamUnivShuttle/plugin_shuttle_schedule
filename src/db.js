@@ -132,7 +132,7 @@ const convertLoadedData = function (data) {
       schedule: JSON.parse(row.timeline),
     };
   });
-  //   console.log("shuttleData", shuttleData);
+  console.log("shuttleData", shuttleData);
   return shuttleData;
 };
 
@@ -199,6 +199,7 @@ const getShuttleStationList = async function (routeName, isDev = false) {
   const result = [];
   const shuttleData = await loadShuttleData(isDev);
   const route = routeName2RouteKey(shuttleData, routeName);
+  console.log("routeName: ", routeName, " / route key: ", route);
   if (
     !shuttleData.hasOwnProperty(route) ||
     !shuttleData[route].stations ||
@@ -209,6 +210,8 @@ const getShuttleStationList = async function (routeName, isDev = false) {
   }
 
   const stations = shuttleData[route].stations;
+
+  console.log("station len: ", stations ? stations.length : -1);
 
   for (let key in stations) {
     if (stations[key].status) {
