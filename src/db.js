@@ -139,11 +139,11 @@ const convertLoadedData = function (data) {
 const loadFromDB = async function () {
   const mariadb = require("mariadb");
   const pool = mariadb.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
+    host: process.env.DB_HOST || "localhost",
+    user: process.env.DB_USER || "root",
     password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASENAME,
-    port: process.env.DB_PORT,
+    database: process.env.DB_DATABASENAME || "chatbot_system",
+    port: process.env.DB_PORT || "3306",
     connectionLimit: 5,
   });
 
