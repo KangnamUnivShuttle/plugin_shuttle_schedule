@@ -77,10 +77,7 @@ app.post("/chat", async (req, res) => {
       }
 
       carouselTemplate.carousel.type = "listCard";
-      listTemplate.header.title = `${await getRouteNameFromKey(
-        req.body.route,
-        req.body.dev
-      )} 경로`;
+      listTemplate.header.title = `${req.body.route} 경로`;
 
       const sortedStations = stations.sort((a, b) => a.order - b.order);
 
@@ -104,10 +101,7 @@ app.post("/chat", async (req, res) => {
         req.body.dev || false
       );
       carouselTemplate.carousel.type = "listCard";
-      listTemplate.header.title = `${await getRouteNameFromKey(
-        req.body.route,
-        req.body.dev
-      )} 경로`;
+      listTemplate.header.title = `${req.body.route} 경로`;
       // console.log('neartime', neartime)
 
       const sortedNearTime = neartime.sort((a, b) => a.order - b.order);

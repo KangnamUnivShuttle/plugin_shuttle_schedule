@@ -185,9 +185,20 @@ const getShuttleRouteData = async function (isDev = false) {
   return result;
 };
 
-const getShuttleStationList = async function (route, isDev = false) {
+const routeName2RouteKey = function (shuttleData, routeName) {
+  let routeKey = null;
+  Object.keys(shuttleData).forEach((key) => {
+    if (shuttleData[key].name === routeName) {
+      routeKey = key;
+    }
+  });
+  return routeKey;
+};
+
+const getShuttleStationList = async function (routeName, isDev = false) {
   const result = [];
   const shuttleData = await loadShuttleData(isDev);
+  const route = routeName2RouteKey(shuttleData, routeName);
   if (
     !shuttleData.hasOwnProperty(route) ||
     !shuttleData[route].stations ||
